@@ -1,4 +1,50 @@
-import { useEffect } from "react";
+useEffect(() => {
+
+  const lenis = new Lenis({
+    duration: 1.1,
+    smoothWheel: true
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);
+
+  gsap.from(".hero-title", {
+    y: 80,
+    opacity: 0,
+    duration: 1.4,
+    ease: "power3.out"
+  });
+
+  gsap.from(".hero-text", {
+    y: 40,
+    opacity: 0,
+    delay: 0.3,
+    duration: 1.1
+  });
+
+  gsap.from(".hero-btn", {
+    scale: 0.9,
+    opacity: 0,
+    delay: 0.6,
+    duration: 0.8
+  });
+
+  gsap.from(".section", {
+    opacity: 0,
+    y: 60,
+    duration: 1,
+    stagger: 0.2,
+    scrollTrigger: {
+      trigger: ".section",
+      start: "top 85%"
+    }
+  });
+
+}, []);
 import gsap from "gsap";
 import Lenis from "@studio-freight/lenis";
 
