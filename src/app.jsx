@@ -1,60 +1,4 @@
-useEffect(() => {
-window.addEventListener("scroll", () => {
-  const nav = document.querySelector(".nav");
-
-  if (window.scrollY > 50) {
-    nav.style.background = "rgba(7,23,15,0.75)";
-    nav.style.backdropFilter = "blur(20px)";
-  } else {
-    nav.style.background = "rgba(7,23,15,0.55)";
-    nav.style.backdropFilter = "blur(18px)";
-  }
-});
-  const lenis = new Lenis({
-    duration: 1.1,
-    smoothWheel: true
-  });
-
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-
-  requestAnimationFrame(raf);
-
-  gsap.from(".hero-title", {
-    y: 80,
-    opacity: 0,
-    duration: 1.4,
-    ease: "power3.out"
-  });
-
-  gsap.from(".hero-text", {
-    y: 40,
-    opacity: 0,
-    delay: 0.3,
-    duration: 1.1
-  });
-
-  gsap.from(".hero-btn", {
-    scale: 0.9,
-    opacity: 0,
-    delay: 0.6,
-    duration: 0.8
-  });
-
-  gsap.from(".section", {
-    opacity: 0,
-    y: 60,
-    duration: 1,
-    stagger: 0.2,
-    scrollTrigger: {
-      trigger: ".section",
-      start: "top 85%"
-    }
-  });
-
-}, []);
+import { useEffect } from "react";
 import gsap from "gsap";
 import Lenis from "@studio-freight/lenis";
 
@@ -62,10 +6,11 @@ function App() {
 
   useEffect(() => {
 
-    // smooth scroll
+    // Smooth scroll (cinematic easing)
     const lenis = new Lenis({
-      duration: 1.1,
-      smoothWheel: true
+      duration: 1.25,
+      smoothWheel: true,
+      smoothTouch: false
     });
 
     function raf(time) {
@@ -75,11 +20,12 @@ function App() {
 
     requestAnimationFrame(raf);
 
-    // hero animation
+    // HERO animation
     gsap.from(".hero-title", {
       y: 80,
       opacity: 0,
-      duration: 1.2
+      duration: 1.2,
+      ease: "power3.out"
     });
 
     gsap.from(".hero-text", {
@@ -90,16 +36,56 @@ function App() {
     });
 
     gsap.from(".hero-btn", {
-      scale: 0.9,
+      scale: 0.95,
       opacity: 0,
       delay: 0.5
     });
+
+    // SECTION reveal
+    gsap.utils.toArray(".section").forEach((sec) => {
+      gsap.from(sec, {
+        scrollTrigger: {
+          trigger: sec,
+          start: "top 85%"
+        },
+        opacity: 0,
+        y: 60,
+        duration: 1
+      });
+    });
+
+    // NAV scroll effect
+    window.addEventListener("scroll", () => {
+      const nav = document.querySelector(".nav");
+
+      if (window.scrollY > 50) {
+        nav.style.background = "rgba(7,23,15,0.75)";
+        nav.style.backdropFilter = "blur(20px)";
+      } else {
+        nav.style.background = "rgba(7,23,15,0.55)";
+        nav.style.backdropFilter = "blur(18px)";
+      }
+    });
+
+    // MOUSE LIGHT
+    const moveLight = (e) => {
+      const light = document.querySelector(".cursor-light");
+      if (light) {
+        light.style.left = e.clientX + "px";
+        light.style.top = e.clientY + "px";
+      }
+    };
+
+    window.addEventListener("mousemove", moveLight);
 
   }, []);
 
   return (
     <>
-      {/* NAVBAR */}
+      {/* CURSOR LIGHT */}
+      <div className="cursor-light"></div>
+
+      {/* NAV */}
       <nav className="nav">
         <div className="logo">
           <span>Dream</span>Home
@@ -116,13 +102,15 @@ function App() {
 
       {/* HERO */}
       <section className="hero">
+        <div className="hero-glow"></div>
+
         <h1 className="hero-title">
           Corporate Luxury Real Estate
         </h1>
 
         <p className="hero-text">
-          Premium consultancy for high-net-worth property investment
-          across India & Dubai.
+          Premium investment advisory and real estate consultancy
+          across India & Dubai’s most exclusive markets.
         </p>
 
         <button className="hero-btn">
@@ -135,8 +123,7 @@ function App() {
         <h2>About Us</h2>
         <p>
           We are a premium real estate advisory firm focused on
-          long-term value creation, trust, and institutional-grade
-          property consulting.
+          institutional-grade investment consulting and long-term value creation.
         </p>
       </section>
 
@@ -144,7 +131,7 @@ function App() {
       <section id="vision" className="section dark">
         <h2>Our Vision</h2>
         <p>
-          To redefine real estate consulting with transparency,
+          To redefine luxury real estate consulting through transparency,
           discipline, and global standards.
         </p>
       </section>
@@ -153,8 +140,7 @@ function App() {
       <section id="services" className="section">
         <h2>Services</h2>
         <p>
-          Investment advisory, property consultation,
-          and developer partnerships.
+          Investment advisory, property consulting, and developer partnerships.
         </p>
       </section>
 
