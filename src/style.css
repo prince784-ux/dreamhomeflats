@@ -130,3 +130,6 @@
     radial-gradient(circle at 80% 70%, rgba(212,175,55,0.12), transparent 45%);
   z-index:-1;
 }
+.nav{
+  transition: all 0.4s ease;
+    }
