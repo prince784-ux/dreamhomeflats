@@ -1,5 +1,15 @@
 useEffect(() => {
+window.addEventListener("scroll", () => {
+  const nav = document.querySelector(".nav");
 
+  if (window.scrollY > 50) {
+    nav.style.background = "rgba(7,23,15,0.75)";
+    nav.style.backdropFilter = "blur(20px)";
+  } else {
+    nav.style.background = "rgba(7,23,15,0.55)";
+    nav.style.backdropFilter = "blur(18px)";
+  }
+});
   const lenis = new Lenis({
     duration: 1.1,
     smoothWheel: true
